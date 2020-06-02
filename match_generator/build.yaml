@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      match_generator|match:
+        enabled: true
+
+builders:
+  match:
+    target: ":match_generator"
+    import: "package:match_generator/match_generator.dart"
+    builder_factories: ["match"]
+    build_extensions: {".dart": [".g.part"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
