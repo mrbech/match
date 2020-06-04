@@ -1,6 +1,6 @@
 library match;
 
-export 'extensions.dart';
+export 'string_match.dart';
 
 const match = Match();
 
