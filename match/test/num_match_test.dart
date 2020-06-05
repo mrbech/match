@@ -3,6 +3,31 @@ import 'package:test/test.dart';
 
 void main() {
   group('num.match', () {
+    test('readme example', () {
+      final x = 10;
+
+      final result = x.match({
+        gt(100): () => 1,
+        eq(10) | eq(20): () => 2,
+        range(30, 40): () => 3,
+        any: () => 3,
+      });
+
+      expect(result, 2);
+    });
+
+    test('readme example 2', () {
+      final x = 10;
+      final y = true;
+      final result = x.match({
+        eq(10) > !y: () => 1,
+        eq(10) > y: () => 2,
+        eq(10) >> () => !y: () => 3,
+        eq(10) >> () => y: () => 4,
+      });
+      expect(result, 2);
+    });
+
     test('match eq', () {
       final x = 10;
       final result = x.match({
