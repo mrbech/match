@@ -1,0 +1,33 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install match dependencies
+      run: pub get
+      working-directory: ./match
+    - name: Run match tests
+      run: pub run test
+      working-directory: ./match
+    - name: Install match_generator dependencies
+      run: pub get
+      working-directory: ./match_generator
+    - name: Build match_generator tests
+      run: pub run build_runner build --delete-conflicting-outputs
+      working-directory: ./match_generator
+    - name: Run match_generator tests
+      run: pub run test
+      working-directory: ./match_generator
