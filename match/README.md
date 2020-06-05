@@ -54,7 +54,7 @@ expect(eval(e), 50);
 
 The method takes an optional named function argument per subclass and an `any`
 named argument that will called if none of the provided arguments matches. If
-`any` is not provided and no argument matches an exception will be thrown at
+`any` is not provided and no argument matches, an exception will be thrown at
 runtime.
 
 ## Enum match
@@ -87,7 +87,7 @@ expect(result, 1);
 ## Dart builtin types match
 For Dart builtin types the `match` extension methods works a bit differently.
 Here we have a DSL for match cases that allows for advanced value matching. Lets
-look on an example where we match an integer:
+look at an example where we match an integer:
 
 ```dart
 import 'package:match/match.dart';
@@ -108,7 +108,7 @@ Each case is expressed using a tiny DSL that allows for building more complex ma
 DSL consists of functions that matches the value of `x` and operators that
 combines the functions for more complicated matching. If a case matches the
 values of `x` the corresponding function is run and the result returned. If no
-cases matches an exception will be thrown at runtime.
+cases matches, an exception will be thrown at runtime.
 
 We have the following general combining operators for the DSL:
 
