@@ -5,6 +5,22 @@ programming languages and Kotlin's `when` expression.
 This library contains `@match` annotation for generating custom `match` extensions
 and extension methods for dart builtin types.
 
+## Setup
+
+Add the following to your pubspec.yaml:
+
+```yaml
+dependencies:
+  match: ^0.1.0
+dev_dependencies:
+  build_runner:
+  match_generator: ^0.1.0
+```
+
+If you are using the `@match` annotation run:
+
+> pub run build_runner build
+
 ## Class match
 
 Similar to `sealed` classes in Kotlin (discriminated unions) a match
@@ -183,19 +199,3 @@ Supported match functions:
 - `gte(n)` matches if `x >= n`
 - `range(from, to)` matches if `x >= from && x <= to`
 - `any` matches any values of `x`
-
-## Setup
-
-Add the following to your pubspec.yaml:
-
-```yaml
-dependencies:
-  match: ^0.1.0
-dev_dependencies:
-  build_runner:
-  match_generator: ^0.1.0
-```
-
-If you are using the `@match` annotation run:
-
-> pub run build_runner build
