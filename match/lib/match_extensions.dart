@@ -43,6 +43,10 @@ extension MatchCaseOperators<T> on MatchCase<T> {
   MatchCase<T> operator >>(bool Function() g) {
     return (n) => this(n) && g();
   }
+
+  MatchCase<T> operator >(bool g) {
+    return (n) => this(n) && g;
+  }
 }
 
 MatchCase<T> eq<T>(T value) {

@@ -112,6 +112,25 @@ void main() {
       expect(result, 3);
     });
 
+    test('match guard (>)', () {
+      final x = 10;
+      final result = x.match({
+        eq(10) > false: () => 1,
+        eq(10) > true: () => 2,
+      });
+      expect(result, 2);
+    });
+
+    test('match guard (>) fall through', () {
+      final x = 10;
+      final result = x.match({
+        eq(10) > false: () => 1,
+        eq(10) > false: () => 2,
+        any: () => 3,
+      });
+      expect(result, 3);
+    });
+
     test('no match', () {
       final x = 10;
       expect(() => x.match({eq(5): () => 1}), throwsException);
