@@ -1,6 +1,6 @@
 library match;
 
-export 'extensions.dart';
+export 'package:match/match_extensions.dart';
 
 const match = Match();
 
