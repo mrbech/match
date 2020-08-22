@@ -1,3 +1,6 @@
+## [0.3.1]
+- updated README with for new generated @required match and matchAny
+
 ## [0.3.0]
 - exporting dart meta package to use @required in generated match.
 
