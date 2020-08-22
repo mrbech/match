@@ -42,9 +42,9 @@ void main() {
       expect(eval(e), 50);
     });
 
-    test('any', () {
+    test('matchAny', () {
       final e = Value(value: 10);
-      final result = e.match(
+      final result = e.matchAny(
         add: (a) => 1,
         any: () => 2,
       );
@@ -54,7 +54,18 @@ void main() {
     test('no match', () {
       final e = Value(value: 10);
       expect(
+          //ignore: missing_required_param
           () => e.match(
+                add: (a) => 1,
+              ),
+          throwsException);
+    });
+
+    test('matchAny no match', () {
+      final e = Value(value: 10);
+      expect(
+          //ignore: missing_required_param
+          () => e.matchAny(
                 add: (a) => 1,
               ),
           throwsException);
@@ -92,18 +103,30 @@ void main() {
       expect(result, 3);
     });
 
-    test('any', () {
+    test('matchAny', () {
       final c = Color.blue;
-      final result = c.match(
+      final result = c.matchAny(
         red: () => 1,
         any: () => 2,
       );
       expect(result, 2);
     });
+
     test('no match', () {
       final c = Color.red;
       expect(
+          //ignore: missing_required_param
           () => c.match(
+                blue: () => 1,
+              ),
+          throwsException);
+    });
+
+    test('matchAny no match', () {
+      final c = Color.red;
+      expect(
+          //ignore: missing_required_param
+          () => c.matchAny(
                 blue: () => 1,
               ),
           throwsException);

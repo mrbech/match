@@ -2,8 +2,8 @@
 `match` extension methods for Dart. Inspired by pattern matching from functional
 programming languages and Kotlin's `when` expression.
 
-This library contains `@match` annotation for generating custom `match` extensions
-and extension methods for dart builtin types.
+This library contains `@match` annotation for generating custom `match` and
+`matchAny` extensions and extension methods for dart builtin types.
 
 ## Setup
 
@@ -23,9 +23,9 @@ If you are using the `@match` annotation run:
 
 ## Class match
 
-Similar to `sealed` classes in Kotlin (discriminated unions) a match
-extension method for a single level class hierarchy can be generated using the
-`@match` annotation. All classes must be defined in the same file.
+Similar to `sealed` classes in Kotlin (discriminated unions) a `match` and
+`matchAny` extension method for a single level class hierarchy can be generated
+using the `@match` annotation. All classes must be defined in the same file.
 
 ```dart
 //types.dart:
@@ -48,15 +48,14 @@ class Add implements Expr {
 }
 ```
 
-A match extension method on `Expr` function will be generated in the
-`types.g.dart` file. And can be used as follows:
+`match` and `matchAny` extension methods on `Expr` function will be generated in
+the `types.g.dart` file. And can be used as follows:
 
 ```dart
 int eval(Expr expr) {
   return expr.match(
     value: (v) => v.value,
     add: (a) => eval(a.e1) + eval(a.e2),
-    any: () => 0,
   );
 }
 
@@ -66,17 +65,24 @@ final e = Add(
 );
 
 expect(eval(e), 50);
+
+final v = Value(value: 20);
+final result = v.matchAny(add: (a) => 1, any: () => 2);
+expect(result, 2);
 ```
 
-The method takes an optional named function argument per subclass and an `any`
-named argument that will called if none of the provided arguments matches. If
-`any` is not provided and no argument matches, an exception will be thrown at
-runtime.
+The `match` method takes an named function argument per subclass. `matchAny` is
+like `match` but also takes a named function argument `any` that will called if
+none of the provided arguments matches. If `any` is not provided and no argument
+matches, an exception will be thrown at runtime.
+
+The `match` and `matchAny` method's named arguments are annotated with `@required` to
+allow `dartanalyzer` to give warnings when cases are missing.
 
 ## Enum match
 
-An `enum` can also be annotated with `@match` to generate a `match` extension
-method:
+An `enum` can also be annotated with `@match` to generate a `match` and
+`matchAny` extension methods:
 
 ```dart
 //types.dart:
@@ -95,9 +101,15 @@ final r = Color.red;
 final result = r.match(
   red: () => 1,
   green: () => 2,
-  any: () => 3,
+  blue: () => 3,
 );
 expect(result, 1);
+
+final result = r.matchAny(
+  green: () => 1,
+  any: () => 2,
+);
+expect(result, 2);
 ```
 
 ## Dart builtin types match
