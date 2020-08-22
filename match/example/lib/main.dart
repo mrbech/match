@@ -41,6 +41,11 @@ void main(List<String> arguments) {
   print(r.match(
     red: () => 1,
     green: () => 2,
+    blue: () => 3,
+  ));
+
+  print(r.matchAny(
+    red: () => 1,
     any: () => 3,
   ));
 }
