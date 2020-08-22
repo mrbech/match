@@ -10,7 +10,16 @@ String generateClass(ClassElement c) {
   return '''
       extension ${c.name}Match on ${c.name} {
         T match<T>({
-          T Function() any,
+          ${sub.map(namedFunctionArgument).map((n) => '@required $n').join(',\n')}
+        }) {
+          final v = this;
+          ${sub.map(typeMatch).join('\n')}
+
+          throw Exception('${c.name}.match failed, found no match for: \$this');
+        }
+
+        T matchAny<T>({
+          @required T Function() any,
           ${sub.map(namedFunctionArgument).join(',\n')}
         }) {
           final v = this;
@@ -20,7 +29,7 @@ String generateClass(ClassElement c) {
             return any();
           }
 
-          throw Exception('${c.name}.match failed, found no match for: \$this');
+          throw Exception('${c.name}.matchAny failed, found no match for: \$this');
         }
       }
     ''';

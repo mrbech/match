@@ -6,19 +6,28 @@ String generateEnum(ClassElement c) {
   return '''
       extension ${c.name}Match on ${c.name} {
         T match<T>({
-          T Function() any,
+          ${values.map(namedFunctionArgument).map((n) => '@required $n').join(',\n')}
+        }) {
+          final v = this;
+          ${values.map((v) => enumValueMatch(c, v)).join('\n')}
+
+          throw Exception('${c.name}.match failed, found no match for: \$this');
+        }
+
+        T matchAny<T>({
+          @required T Function() any,
           ${values.map(namedFunctionArgument).join(',\n')}
         }) {
           final v = this;
           ${values.map((v) => enumValueMatch(c, v)).join('\n')}
 
-        if(any != null) {
-          return any();
-        }
+          if(any != null) {
+            return any();
+          }
 
-        throw Exception('${c.name}.match failed, found no match for: \$this');
+          throw Exception('${c.name}.matchAny failed, found no match for: \$this');
+        }
       }
-}
   ''';
 }
 
