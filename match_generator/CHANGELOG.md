@@ -1,3 +1,7 @@
+## [0.4.0]
+
+- dart null safety
+
 ## [0.3.1]
 
 - upgrade analyzer
