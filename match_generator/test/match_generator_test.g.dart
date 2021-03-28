@@ -8,19 +8,19 @@ part of 'match_generator_test.dart';
 
 extension ColorMatch on Color {
   T match<T>(
-      {@required T Function() red,
-      @required T Function() green,
-      @required T Function() blue}) {
+      {required T Function() red,
+      required T Function() green,
+      required T Function() blue}) {
     final v = this;
-    if (v == Color.red && red != null) {
+    if (v == Color.red) {
       return red();
     }
 
-    if (v == Color.green && green != null) {
+    if (v == Color.green) {
       return green();
     }
 
-    if (v == Color.blue && blue != null) {
+    if (v == Color.blue) {
       return blue();
     }
 
@@ -28,10 +28,10 @@ extension ColorMatch on Color {
   }
 
   T matchAny<T>(
-      {@required T Function() any,
-      T Function() red,
-      T Function() green,
-      T Function() blue}) {
+      {required T Function() any,
+      T Function()? red,
+      T Function()? green,
+      T Function()? blue}) {
     final v = this;
     if (v == Color.red && red != null) {
       return red();
@@ -45,23 +45,18 @@ extension ColorMatch on Color {
       return blue();
     }
 
-    if (any != null) {
-      return any();
-    }
-
-    throw Exception('Color.matchAny failed, found no match for: $this');
+    return any();
   }
 }
 
 extension ExprMatch on Expr {
-  T match<T>(
-      {@required T Function(Value) value, @required T Function(Add) add}) {
+  T match<T>({required T Function(Value) value, required T Function(Add) add}) {
     final v = this;
-    if (v is Value && value != null) {
+    if (v is Value) {
       return value(v);
     }
 
-    if (v is Add && add != null) {
+    if (v is Add) {
       return add(v);
     }
 
@@ -69,9 +64,9 @@ extension ExprMatch on Expr {
   }
 
   T matchAny<T>(
-      {@required T Function() any,
-      T Function(Value) value,
-      T Function(Add) add}) {
+      {required T Function() any,
+      T Function(Value)? value,
+      T Function(Add)? add}) {
     final v = this;
     if (v is Value && value != null) {
       return value(v);
@@ -81,10 +76,6 @@ extension ExprMatch on Expr {
       return add(v);
     }
 
-    if (any != null) {
-      return any();
-    }
-
-    throw Exception('Expr.matchAny failed, found no match for: $this');
+    return any();
   }
 }
