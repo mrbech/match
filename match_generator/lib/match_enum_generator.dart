@@ -6,7 +6,7 @@ String generateEnum(ClassElement c) {
   return '''
       extension ${c.name}Match on ${c.name} {
         T match<T>({
-          ${values.map(namedFunctionArgument).map((n) => '@required $n').join(',\n')}
+          ${values.map(namedFunctionArgument).map((n) => 'required $n').join(',\n')}
         }) {
           final v = this;
           ${values.map((v) => enumValueMatch(c, v)).join('\n')}
@@ -15,20 +15,20 @@ String generateEnum(ClassElement c) {
         }
 
         T matchAny<T>({
-          @required T Function() any,
-          ${values.map(namedFunctionArgument).join(',\n')}
+          required T Function() any,
+          ${values.map(optionalNamedFunctionArgument).join(',\n')}
         }) {
           final v = this;
-          ${values.map((v) => enumValueMatch(c, v)).join('\n')}
+          ${values.map((v) => optionalEnumValueMatch(c, v)).join('\n')}
 
-          if(any != null) {
-            return any();
-          }
-
-          throw Exception('${c.name}.matchAny failed, found no match for: \$this');
+          return any();
         }
       }
   ''';
+}
+
+String optionalNamedFunctionArgument(FieldElement f) {
+  return 'T Function()? ${f.name.toCamelCase()}';
 }
 
 String namedFunctionArgument(FieldElement f) {
@@ -36,6 +36,14 @@ String namedFunctionArgument(FieldElement f) {
 }
 
 String enumValueMatch(ClassElement c, FieldElement f) {
+  return '''
+    if(v == ${c.name}.${f.name}) {
+      return ${f.name.toCamelCase()}();
+    }
+  ''';
+}
+
+String optionalEnumValueMatch(ClassElement c, FieldElement f) {
   return '''
     if(v == ${c.name}.${f.name} && ${f.name.toCamelCase()} != null) {
       return ${f.name.toCamelCase()}();

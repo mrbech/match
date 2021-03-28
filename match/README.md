@@ -38,13 +38,13 @@ abstract class Expr {}
 
 class Value implements Expr {
   int value;
-  Value({this.value});
+  Value({required this.value});
 }
 
 class Add implements Expr {
   Expr e1;
   Expr e2;
-  Add({this.e1, this.e2});
+  Add({required this.e1, required this.e2});
 }
 ```
 
@@ -71,13 +71,10 @@ final result = v.matchAny(add: (a) => 1, any: () => 2);
 expect(result, 2);
 ```
 
-The `match` method takes an named function argument per subclass. `matchAny` is
-like `match` but also takes a named function argument `any` that will called if
-none of the provided arguments matches. If `any` is not provided and no argument
-matches, an exception will be thrown at runtime.
-
-The `match` and `matchAny` method's named arguments are annotated with `@required` to
-allow `dartanalyzer` to give warnings when cases are missing.
+The `match` method takes a `required` named function argument per subclass.
+`matchAny` is like `match` but with optional named functions, instead it takes a
+`required` named function argument `any` that will called if none of the
+provided arguments matches.
 
 ## Enum match
 

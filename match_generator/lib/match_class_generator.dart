@@ -10,7 +10,7 @@ String generateClass(ClassElement c) {
   return '''
       extension ${c.name}Match on ${c.name} {
         T match<T>({
-          ${sub.map(namedFunctionArgument).map((n) => '@required $n').join(',\n')}
+          ${sub.map(namedFunctionArgument).map((n) => 'required $n').join(',\n')}
         }) {
           final v = this;
           ${sub.map(typeMatch).join('\n')}
@@ -19,30 +19,38 @@ String generateClass(ClassElement c) {
         }
 
         T matchAny<T>({
-          @required T Function() any,
-          ${sub.map(namedFunctionArgument).join(',\n')}
+          required T Function() any,
+          ${sub.map(optionalNamedFunctionArgument).join(',\n')}
         }) {
           final v = this;
-          ${sub.map(typeMatch).join('\n')}
+          ${sub.map(optionalTypeMatch).join('\n')}
 
-          if(any != null) {
-            return any();
-          }
-
-          throw Exception('${c.name}.matchAny failed, found no match for: \$this');
+          return any();
         }
       }
     ''';
 }
 
+String optionalNamedFunctionArgument(Element c) {
+  return 'T Function(${c.name})? ${c.name?.toCamelCase()}';
+}
+
 String namedFunctionArgument(Element c) {
-  return 'T Function(${c.name}) ${c.name.toCamelCase()}';
+  return 'T Function(${c.name}) ${c.name?.toCamelCase()}';
 }
 
 String typeMatch(Element c) {
   return '''
-      if(v is ${c.name} && ${c.name.toCamelCase()} != null) { 
-        return ${c.name.toCamelCase()}(v);
+      if(v is ${c.name}) { 
+        return ${c.name?.toCamelCase()}(v);
+      }
+    ''';
+}
+
+String optionalTypeMatch(Element c) {
+  return '''
+      if(v is ${c.name} && ${c.name?.toCamelCase()} != null) { 
+        return ${c.name?.toCamelCase()}(v);
       }
     ''';
 }

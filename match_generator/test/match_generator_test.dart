@@ -8,13 +8,13 @@ abstract class Expr {}
 
 class Value implements Expr {
   int value;
-  Value({this.value});
+  Value({required this.value});
 }
 
 class Add implements Expr {
   Expr e1;
   Expr e2;
-  Add({this.e1, this.e2});
+  Add({required this.e1, required this.e2});
 }
 
 int eval(Expr expr) {
@@ -49,26 +49,6 @@ void main() {
         any: () => 2,
       );
       expect(result, 2);
-    });
-
-    test('no match', () {
-      final e = Value(value: 10);
-      expect(
-          //ignore: missing_required_param
-          () => e.match(
-                add: (a) => 1,
-              ),
-          throwsException);
-    });
-
-    test('matchAny no match', () {
-      final e = Value(value: 10);
-      expect(
-          //ignore: missing_required_param
-          () => e.matchAny(
-                add: (a) => 1,
-              ),
-          throwsException);
     });
   });
 
@@ -110,26 +90,6 @@ void main() {
         any: () => 2,
       );
       expect(result, 2);
-    });
-
-    test('no match', () {
-      final c = Color.red;
-      expect(
-          //ignore: missing_required_param
-          () => c.match(
-                blue: () => 1,
-              ),
-          throwsException);
-    });
-
-    test('matchAny no match', () {
-      final c = Color.red;
-      expect(
-          //ignore: missing_required_param
-          () => c.matchAny(
-                blue: () => 1,
-              ),
-          throwsException);
     });
   });
 }
