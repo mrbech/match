@@ -1,3 +1,6 @@
+## [0.4.0]
+- dart null safety
+
 ## [0.3.1]
 - updated README with for new generated @required match and matchAny
 

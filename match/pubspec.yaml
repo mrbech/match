@@ -1,6 +1,6 @@
 name: match
 description: Dart library with match annotation for generating custom match extensions and extension methods for dart builtin types
-version: 0.3.1
+version: 0.4.0
 homepage: https://github.com/mrbech/match
 
 dependencies:
