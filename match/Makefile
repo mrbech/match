@@ -1,3 +1,3 @@
 .PHONY: test
 test:
-	pub run test
+	dart run test
