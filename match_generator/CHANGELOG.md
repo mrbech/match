@@ -1,3 +1,7 @@
+## [0.4.1]
+
+- upgrade dependencies
+
 ## [0.4.0]
 
 - dart null safety

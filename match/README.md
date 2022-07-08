@@ -11,10 +11,10 @@ Add the following to your pubspec.yaml:
 
 ```yaml
 dependencies:
-  match: ^0.4.0
+  match: ^0.4.1
 dev_dependencies:
   build_runner:
-  match_generator: ^0.4.0
+  match_generator: ^0.4.1
 ```
 
 If you are using the `@match` annotation run:
