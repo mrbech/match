@@ -6,6 +6,37 @@ part of 'match_generator_test.dart';
 // MatchExtensionGenerator
 // **************************************************************************
 
+extension ExprMatch on Expr {
+  T match<T>({required T Function(Value) value, required T Function(Add) add}) {
+    final v = this;
+    if (v is Value) {
+      return value(v);
+    }
+
+    if (v is Add) {
+      return add(v);
+    }
+
+    throw Exception('Expr.match failed, found no match for: $this');
+  }
+
+  T matchAny<T>(
+      {required T Function() any,
+      T Function(Value)? value,
+      T Function(Add)? add}) {
+    final v = this;
+    if (v is Value && value != null) {
+      return value(v);
+    }
+
+    if (v is Add && add != null) {
+      return add(v);
+    }
+
+    return any();
+  }
+}
+
 extension ColorMatch on Color {
   T match<T>(
       {required T Function() red,
@@ -43,37 +74,6 @@ extension ColorMatch on Color {
 
     if (v == Color.blue && blue != null) {
       return blue();
-    }
-
-    return any();
-  }
-}
-
-extension ExprMatch on Expr {
-  T match<T>({required T Function(Value) value, required T Function(Add) add}) {
-    final v = this;
-    if (v is Value) {
-      return value(v);
-    }
-
-    if (v is Add) {
-      return add(v);
-    }
-
-    throw Exception('Expr.match failed, found no match for: $this');
-  }
-
-  T matchAny<T>(
-      {required T Function() any,
-      T Function(Value)? value,
-      T Function(Add)? add}) {
-    final v = this;
-    if (v is Value && value != null) {
-      return value(v);
-    }
-
-    if (v is Add && add != null) {
-      return add(v);
     }
 
     return any();
