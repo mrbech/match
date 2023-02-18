@@ -16,10 +16,10 @@ class MatchExtensionGenerator extends GeneratorForAnnotation<Match> {
   @override
   Future<String> generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) async {
+    if (element is EnumElement) {
+      return generateEnum(element);
+    }
     if (element is ClassElement) {
-      if (element.isEnum) {
-        return generateEnum(element);
-      }
       return generateClass(element);
     }
     throw Exception('@match must be used on a class');
