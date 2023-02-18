@@ -1,6 +1,6 @@
 name: match_generator
 description: Generator for match extension methods
-version: 0.4.1
+version: 0.4.2
 homepage: https://github.com/mrbech/match
 
 environment:
