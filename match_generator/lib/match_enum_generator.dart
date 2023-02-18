@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:match_generator/utils.dart';
 
-String generateEnum(ClassElement c) {
+String generateEnum(EnumElement c) {
   final values = c.fields.where((f) => f.isEnumConstant);
   return '''
       extension ${c.name}Match on ${c.name} {
@@ -35,7 +35,7 @@ String namedFunctionArgument(FieldElement f) {
   return 'T Function() ${f.name.toCamelCase()}';
 }
 
-String enumValueMatch(ClassElement c, FieldElement f) {
+String enumValueMatch(EnumElement c, FieldElement f) {
   return '''
     if(v == ${c.name}.${f.name}) {
       return ${f.name.toCamelCase()}();
@@ -43,7 +43,7 @@ String enumValueMatch(ClassElement c, FieldElement f) {
   ''';
 }
 
-String optionalEnumValueMatch(ClassElement c, FieldElement f) {
+String optionalEnumValueMatch(EnumElement c, FieldElement f) {
   return '''
     if(v == ${c.name}.${f.name} && ${f.name.toCamelCase()} != null) {
       return ${f.name.toCamelCase()}();
